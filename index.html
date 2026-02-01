@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For You ❤️</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #FF6A00, pink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      color: white;
+      overflow: hidden;
+    }
+
+    .page {
+      display: none;
+      height: 100vh;
+      padding: 40px 20px;
+      box-sizing: border-box;
+    }
+
+    .page.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2em;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    p {
+      font-size: 1.15em;
+      line-height: 1.6;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .next-btn {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      background: rgba(255,255,255,0.9);
+      color: #ff2f92;
+      border: none;
+      border-radius: 30px;
+      padding: 14px 24px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    /* FINAL PAGE */
+    .final {
+      align-items: center;
+      text-align: center;
+    }
+
+    .fireworks {
+      font-size: 2.2em;
+      animation: pop 1s infinite alternate;
+    }
+
+    @keyframes pop {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
+    }
+
+    .buttons {
+      margin-top: 40px;
+      display: flex;
+      gap: 20px;
+      position: relative;
+    }
+
+    button.choice {
+      padding: 16px 26px;
+      font-size: 1em;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #yesBtn {
+      background: #F4BB44;
+      color: #000;
+    }
+
+    #noBtn {
+      background: #FFB6C1;
+      color: #000;
+      position: relative;
+    }
+
+    #message {
+      margin-top: 25px;
+      font-size: 1.3em;
+      font-weight: bold;
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: white;
+      animation: fall 3s linear infinite;
+    }
+
+    @keyframes fall {
+      from { transform: translateY(-100vh); }
+      to { transform: translateY(100vh); }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+  <h1>Hi My Love,</h1>
+  <p>
+    We may not be able to see each other in person but that does not mean I can’t
+    put in any effort, nor does it mean my love for you will change.
+    I want you to know that I love you very much.
+  </p>
+  <button class="next-btn" onclick="nextPage(2)">Next page🤭</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+  <p>
+    You are a wonderful experience and one I want to continue experiencing.
+    You make my days lighter just by being in them.
+    Your laugh, smile, and the way you think is so alluring in a way
+    I can ever explain.
+  </p>
+  <button class="next-btn" onclick="nextPage(3)">Next page😝</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+  <h2>So I wanted to ask you…</h2>
+  <button class="next-btn" onclick="nextPage(4)">Next page🫣</button>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page final" id="page4">
+  <div class="fireworks">🎆🎇🎆</div>
+  <h1>WILL YOU BE MY VALENTINE!!!</h1>
+
+  <div class="buttons">
+    <button id="yesBtn" class="choice" onclick="sayYes()">Yes Absolutely!!! 🩷</button>
+    <button id="noBtn" class="choice" onclick="sayNo()">Eww No🫩</button>
+  </div>
+
+  <div id="message"></div>
+</div>
+
+<script>
+  function nextPage(num) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page' + num).classList.add('active');
+  }
+
+  let noClicks = 0;
+
+  function sayYes() {
+    document.getElementById("message").innerHTML =
+      "YAY 🥰 You’re my Valentine!!! ❤️";
+    launchConfetti();
+  }
+
+  function sayNo() {
+    const noBtn = document.getElementById("noBtn");
+    const message = document.getElementById("message");
+
+    noClicks++;
+
+    if (noClicks === 1) {
+      message.innerHTML = "Try again?";
+    } else if (noClicks === 2) {
+      message.innerHTML = "Wrong answer";
+    } else if (noClicks === 3) {
+      message.innerHTML = "Again wrong answer lol";
+    } else {
+      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+      noBtn.style.position = "fixed";
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+  }
+
+  function launchConfetti() {
+    for (let i = 0; i < 50; i++) {
+      const c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.background = Math.random() > 0.5 ? "#F4BB44" : "#FFB6C1";
+      c.style.animationDuration = (Math.random() * 2 + 2) + "s";
+      document.body.appendChild(c);
+    }
+  }
+</script>
+
+</body>
+</html>
